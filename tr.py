@@ -3,7 +3,7 @@ import joblib
 
 @st.cache_resource
 def load_model():
-    return joblib.load("mymodel.pkl")
+    return joblib.load("lg.pkl")
 
 model = load_model()
 
