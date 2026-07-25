@@ -2,10 +2,12 @@ import streamlit as st
 import joblib
 
 @st.cache_resource
-def load_model():
-    return joblib.load("lg.pkl")
+def load_ml():
+    model = joblib.load("lg.pkl")
+    vectorizer = joblib.load("vectorizer.pkl") 
+    return model, vectorizer
 
-model = load_model()
+model, vectorizer = load_ml()
 
 st.title("Category Predictor")
 
@@ -13,7 +15,9 @@ user_text = st.text_input("Enter your text here:")
 
 if st.button("Get Category"):
     if user_text.strip():
-        prediction = model.predict([user_text])[0]
+        transformed_text = vectorizer.transform([user_text])
+        
+        prediction = model.predict(transformed_text)[0]
         
         st.write(f"Category: **{prediction}**")
     else:
